@@ -6,7 +6,8 @@ import '../model/meme.dart';
 
 class ApiController extends GetxController {
   final Rxn<Meme> meme = Rxn<Meme>();
-
+  var isMEMEING = false.obs;
+  var teext = ''.obs;
   @override
   void onInit() {
     fetchMeme();
@@ -15,17 +16,16 @@ class ApiController extends GetxController {
 
   Future<void> fetchMeme() async {
     final response = await http.get(Uri.parse('https://meme-api.com/gimme'));
+    isMEMEING.value = true;
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      if (data != meme) {
-        meme.value = Meme.fromJson(data);
-      } else {
-        fetchMeme();
-      }
-    }
-    else {
-      Get.snackbar("Error", "Failed to load meme");
+      meme.value = Meme.fromJson(data);
+    
+    } else {
+      isMEMEING.value = false;
+      teext.value = "NIGGA";
+      teext.toString();
     }
   }
 }
