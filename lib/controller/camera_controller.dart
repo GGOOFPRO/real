@@ -17,18 +17,33 @@ class CameraControllerX extends GetxController {
     initializeCamera();
   }
 
+  @override
+  void onClose() {
+    cameraController.dispose();
+    super.onClose();
+  }
+
   Future<void> initializeCamera() async {
-    cameras.value = await availableCameras();
-    if (cameras.isNotEmpty) {
-      cameraController = CameraController(cameras[0], ResolutionPreset.high);
-      await cameraController.initialize();
-      isCameraInitialized.value = true;
+    try {
+      cameras.value = await availableCameras();
+      if (cameras.isNotEmpty) {
+        cameraController = CameraController(cameras[0], ResolutionPreset.high);
+        await cameraController.initialize();
+        isCameraInitialized.value = true;
+      }
+    } catch (e) {
+      isCameraInitialized.value = false;
+      // Optionally log or handle error
     }
   }
 
   Future<void> captureImage() async {
-    if (!cameraController.value.isInitialized) return;
-    final XFile file = await cameraController.takePicture();
-    capturedImage.value = File(file.path);
+    try {
+      if (!cameraController.value.isInitialized) return;
+      final XFile file = await cameraController.takePicture();
+      capturedImage.value = File(file.path);
+    } catch (e) {
+      // Optionally handle error
+    }
   }
 }

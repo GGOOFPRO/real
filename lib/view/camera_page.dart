@@ -19,8 +19,10 @@ class CameraScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("GetX Camera")),
       body: Center(
         child: Obx(() {
-          if (!controller.isCameraInitialized.value &&
-              !permissionController.hasCameraPermission.value) {
+          if (!permissionController.hasCameraPermission.value) {
+            return const Text("Camera permission not granted.");
+          }
+          if (!controller.isCameraInitialized.value) {
             return const CircularProgressIndicator();
           }
           return Column(

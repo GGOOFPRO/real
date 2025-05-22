@@ -33,16 +33,19 @@ class ScannerPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (!permissionController.hasCameraPermission.value)
-                    ElevatedButton(
-                      onPressed: () {
-                        permissionController.cameraPermission();
-                      },
-                      child: const Text("scan"),
-                    ),
-                    const SizedBox(height: 20,),
+                      ElevatedButton(
+                        onPressed: () {
+                          permissionController.cameraPermission();
+                        },
+                        child: const Text("Request Camera Permission"),
+                      ),
+                    const SizedBox(height: 20),
                     const Text(
                       "waiting for camera permission",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ],
                 ),
