@@ -15,17 +15,20 @@ class ApiController extends GetxController {
   }
 
   Future<void> fetchMeme() async {
-    final response = await http.get(Uri.parse('https://meme-api.com/gimme'));
-    isMEMEING.value = true;
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      meme.value = Meme.fromJson(data);
-    
-    } else {
+    isMEMEING.value = true; // Set loading before request
+    try {
+      final response = await http.get(Uri.parse('https://meme-api.com/gimme'));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        meme.value = Meme.fromJson(data);
+        teext.value = '';
+      } else {
+        teext.value = "NIGGA PLEASE";
+      }
+    } catch (e) {
+      teext.value = "NIGGA PLEASE";
+    } finally {
       isMEMEING.value = false;
-      teext.value = "NIGGA";
-      teext.toString();
     }
   }
 }
