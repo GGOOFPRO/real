@@ -18,8 +18,13 @@ class ApiController extends GetxController {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      meme.value = Meme.fromJson(data);
-    } else {
+      if (data != meme) {
+        meme.value = Meme.fromJson(data);
+      } else {
+        fetchMeme();
+      }
+    }
+    else {
       Get.snackbar("Error", "Failed to load meme");
     }
   }
